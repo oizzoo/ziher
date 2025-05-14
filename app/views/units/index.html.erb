@@ -1,7 +1,25 @@
 <script type="text/javascript">
   function reloadForYear(year) {
     document.location.href = "<%= units_path %>?year=" + year;
-  }
+  };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const filterInput = document.getElementById('unit-filter');
+
+    filterInput.addEventListener('keyup', function () {
+      const filter = this.value.toLowerCase();
+      const rows = document.querySelectorAll('table tr');
+
+      rows.forEach(function (row) {
+        const cells = row.querySelectorAll('td');
+        if (cells.length === 0) return; // pomiń nagłówki
+
+        const rowText = row.textContent.toLowerCase();
+        row.style.display = rowText.includes(filter) ? '' : 'none';
+      });
+    });
+  });
+
 </script>
 
 <div class="row">
@@ -45,6 +63,12 @@
         </div>
       <% end %>
     </div>
+  </div>
+</div>
+
+<div class="row top-buffer-20">
+  <div class="col-md-4">
+    <input type="text" id="unit-filter" class="form-control" placeholder="Filtruj jednostki (kod, nazwa)...">
   </div>
 </div>
 
